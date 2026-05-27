@@ -1,0 +1,18 @@
+{
+  "name": "study-ai-monorepo",
+  "private": true,
+  "workspaces": [
+    "fronted",
+    "backed"
+  ],
+  "dependencies": {
+    "rxjs": "^7.8.2"
+  },
+  "scripts": {
+    "dev:front": "npm --workspace fronted run dev",
+    "dev:back": "npm --workspace backed run start:dev",
+    "build:front": "npm --workspace fronted run build",
+    "build:back": "npm --workspace backed run build",
+    "start:back": "npm --workspace backed run start"
+  }
+}
