@@ -15,13 +15,23 @@
     "build:back": "npm --workspace backed run build",
     "start:back": "npm --workspace backed run start",
     "lint": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js,json,css,html}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.3",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "typescript-eslint": "^8.60.0",
     "vue-eslint-parser": "^10.4.0"

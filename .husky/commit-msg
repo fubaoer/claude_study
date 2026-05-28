@@ -1,0 +1,2 @@
+# Commit 格式门禁：校验 message 是否符合 [模块] 描述 格式
+npx commitlint --edit $1
