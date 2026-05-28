@@ -1,29 +1,27 @@
 name: AI 开发代理
 
 # ============================================================
-# GitHub Actions — AI 自动开发流水线
+# GitHub Actions — Issue 触发 AI 自动开发
 # ============================================================
 #
-# 触发条件：
-#   1. Issue 被创建（标题即需求）
-#   2. Issue 评论包含 "@ai" 关键字
-#   3. 手动触发 workflow_dispatch（可输入自定义需求）
+# 使用方式：
+#   1. 在 GitHub 创建 Issue，标题写需求 → 自动触发
+#   2. 在 Issue 中评论 "@ai 帮我做XXX" → 自动触发
+#   3. Actions 页面手动触发 workflow_dispatch
+#
+# 结果：AI 自动写代码 → 推送到新分支 → 创建 PR
 #
 # 前置条件：
-#   - 仓库 Settings → Secrets → Actions 中配置 ANTHROPIC_API_KEY
-#   - 如果你想用 gh pr create，确保 Actions 有 write 权限
+#   GitHub Settings → Secrets → Actions → 添加 DEEPSEEK_API_KEY
 # ============================================================
 
 on:
-  # 触发 1：Issue 被打开
   issues:
     types: [opened]
 
-  # 触发 2：Issue 评论包含 @ai
   issue_comment:
     types: [created]
 
-  # 触发 3：手动触发
   workflow_dispatch:
     inputs:
       prompt:
@@ -33,7 +31,6 @@ on:
 
 jobs:
   ai-dev:
-    # 仅当评论包含 @ai 或 Issue 被打开或手动触发时才运行
     if: |
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'issues' ||
@@ -42,9 +39,9 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write       # 允许 push 代码
-      pull-requests: write  # 允许创建 PR
-      issues: read          # 允许读取 Issue
+      contents: write
+      pull-requests: write
+      issues: read
 
     steps:
       - name: 拉取代码
@@ -60,7 +57,7 @@ jobs:
       - name: 安装依赖
         run: |
           npm install --no-audit --no-fund 2>/dev/null || true
-          npm install @anthropic-ai/sdk 2>/dev/null || true
+          npm install openai 2>/dev/null || true
 
       - name: 配置 Git
         run: |
@@ -69,7 +66,7 @@ jobs:
 
       - name: 运行 AI 开发代理
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number || '' }}
         run: node scripts/ai-dev.mjs
