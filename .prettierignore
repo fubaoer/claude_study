@@ -1,0 +1,7 @@
+# Prettier 忽略清单
+# 这些目录/文件不会被 Prettier 格式化
+
+node_modules       # 第三方依赖，不需要格式化
+dist               # 构建产物，格式化无意义
+.vscode            # VS Code 自己的配置文件
+package-lock.json  # npm 自动生成的锁文件，格式化反而会导致 git 冲突

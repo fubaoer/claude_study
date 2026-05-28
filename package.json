@@ -13,6 +13,17 @@
     "dev:back": "npm --workspace backed run start:dev",
     "build:front": "npm --workspace fronted run build",
     "build:back": "npm --workspace backed run build",
-    "start:back": "npm --workspace backed run start"
+    "start:back": "npm --workspace backed run start",
+    "lint": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.9.1",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.60.0",
+    "vue-eslint-parser": "^10.4.0"
   }
 }

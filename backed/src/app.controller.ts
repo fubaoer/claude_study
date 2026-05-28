@@ -15,7 +15,13 @@ export class AppController {
     return [
       { id: 1, name: 'Alice' },
       { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' }
+      { id: 3, name: 'Charlie' },
     ]
+  }
+
+  @Get('status')
+  getStatus() {
+    const info = { status: 'ok', time: new Date() }
+    return info
   }
 }
