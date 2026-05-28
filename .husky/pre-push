@@ -1,0 +1,26 @@
+# ============================================================
+# Pre-Push Hook：推送前校验
+# ============================================================
+# 触发时机：git push 后、数据传输前
+# 校验内容：
+#   1. 任务 ID 校验 — commit 中的 #数字ID 是否有效
+#   2. Commit 格式校验 — 是否符合 [模块] #任务ID 描述
+# 任何一项不通过都会阻止 push
+# ============================================================
+
+# Step 1: 任务 ID 校验（Demo：本地模拟 / 正式：调用公司 API）
+node .husky/verify-task.js || exit 1
+
+# Step 2: Commit 格式校验
+echo "📋 校验 commit 格式..."
+npx commitlint --from origin/$(git rev-parse --abbrev-ref HEAD) --to HEAD 2>/dev/null || {
+  echo ""
+  echo "❌ Push 被拒绝：commit 格式不符合规范。"
+  echo "   请使用：git commit -m \"[模块] #任务ID 描述\""
+  echo "   示例：  git commit -m \"[前端] #12345 修复首页样式\""
+  echo ""
+  exit 1
+}
+
+echo ""
+echo "✅ 全部校验通过，允许推送"
